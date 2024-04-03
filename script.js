@@ -79,39 +79,11 @@ function renderBasket() {
         <div>${result.toFixed(1)}</div>
         `;
     }
-
-
-
-    // console.log(result.toFixed(1))
-
-    // for (let i = 0; i < basketArray.length; i++) {
-    //     let element = basketArray[i];
-
-    //     let sum = element['price']
-    //     let result = sum
-
-    //     console.log(sum)
-
-    //     // console.log(result)
-
-    // }
-
-
-
-
 }
 
 
 function addDish(i) {
-
     basketArray.push(dish[i]);
-
-    // basket.innerHTML += /*html*/ `
-    //     <div>
-    //         ${basketArray[i]['name']}           
-    //         ${basketArray[i]['price']}           
-    //     </div>
-    // `;
     saveBasket();
     render();
 }
