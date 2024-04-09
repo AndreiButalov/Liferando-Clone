@@ -24,7 +24,7 @@ let dishSchnitzel = [
         'price': 18.90,
         'quantity': 1
     },
-]
+];
 
 let dishBurger = [   
     {
@@ -56,16 +56,36 @@ let dishBurger = [
     }
 ];
 
-let dishImg = [
-    './img/schnipo-1837703_640.jpg',
-    './img/hamburger-1238246_640.jpg'
-]
+let dishSalat = [
+    {
+        'name': 'Mozzarella Salat',
+        'productInfo': 'mit frischen Tomaten, Basilikum und Mozzarella',
+        'price': 9.50,
+        'quantity': 1
+    },
+
+    {
+        'name': 'Hühnerfleisch Salat',
+        'productInfo': 'mit gemischtem Salat, Hühnerfleisch und frischer Paprika',
+        'price': 9.00,
+        'quantity': 1
+    },
+
+    {
+        'name': 'Salat Caesars',
+        'productInfo': 'gemischter Salat mit Putenbrust',
+        'price': 9.50,
+        'quantity': 1
+    }
+];
+
 
 loadBaskes();
 
 function render() {   
-    renderSchnitzel()
-    renderBurger()    
+    renderSchnitzel();
+    renderBurger();    
+    renderSalat();    
     // let post = document.getElementById('post_menu_schnitzel');
     // post.innerHTML = '';
     // for (let i = 0; i < dishSchnitzel.length; i++) {
@@ -101,16 +121,23 @@ function renderBurger() {
 }
 
 
-
+function renderSalat() {
+    let post = document.getElementById('post_menu_salat');
+    post.innerHTML = '';
+    for (let i = 0; i < dishSalat.length; i++) {
+        let element = dishSalat[i];
+        post.innerHTML += generatePostMenu(dishSalat, element, i);
+    }
+}
 
 
 function generatePostMenu(obj, element, i) {
     return `
-        <div class="dish_name">
+        <div class="dish_name" onclick="addDish('${encodeURIComponent(JSON.stringify(obj))}', ${i})">
             <div class="product_name">${element['name']}</div>
             <div class="product_info">${element['productInfo']}</div>
-            <div class="product_price">${element['price'].toFixed(2)}</div>            
-            <button class="add_product" onclick="addDish('${encodeURIComponent(JSON.stringify(obj))}', ${i})">Add</button>
+            <div class="product_price">${element['price'].toFixed(2)} ${'€'}</div>            
+            <button class="add_product">+</button>
         </div>
         `;
 }
@@ -121,7 +148,7 @@ function renderBasket() {
     let basket = document.getElementById('basket');
     let totalPrice = document.getElementById('total_price');
     basket.innerHTML = '';
-    totalPrice.innerHTML = 'Waren korb ist leer';
+    totalPrice.innerHTML = 'Warenkorb ist leer';
     let sum  = 0;
     let totalSum = 0;
     
@@ -131,11 +158,21 @@ function renderBasket() {
         
         let value = +document.getElementById(`sum${i}`).innerText;
         totalSum += value;
-        totalPrice.innerHTML = /*html*/`
-            <div>${totalSum.toFixed(2) + ' €'}</div>
-            <button onclick="deleteAll()">Delete All</button>
-            `;
+        totalPrice.innerHTML = generateDeleteAll(totalSum);
     }
+}
+
+
+function generateDeleteAll(totalSum) {
+    return `    
+        <div class="totale_price">
+            <div class="total_sum">
+                <h2>Gesamtkosten:</h2>
+                <div>${totalSum.toFixed(2)} ${'€'}</div>
+            </div>
+            <button onclick="deleteAll()">Bezahlen ${totalSum.toFixed(2)} ${'€'}</button>    
+        </div>
+    `;
 }
 
 
@@ -143,14 +180,18 @@ function generateBasket (sum, element, i) {
     return `
     <div class="basket_content">
         <div class="dish_basket_name">
-            <div>${element['quantity']}</div>
-            <div>${element['name']}</div>
+            <div class="basket_dish_name">
+                <div class="quantity">${element['quantity']}</div>
+                <div class="basket_name">${element['name']}</div>
+            </div>
             <div id="sum${i}">${sum.toFixed(2)}</div>
         </div>
         <div class="controls">
-            <button onclick="plusDish(${i})">+</button>                    
-            <button onclick="deleteDish(${i})">Delete</button> 
-            <button onclick="minusDish(${i})">-</button> 
+            <div>
+                <button onclick="plusDish(${i})">+</button>                    
+                <button onclick="minusDish(${i})">-</button> 
+            </div>
+            <img class="trash" onclick="deleteDish(${i})" src="./img/trashcan-155299_640.png" alt=""> 
         </div>  
     </div>            
     `;
