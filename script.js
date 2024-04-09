@@ -3,44 +3,54 @@ let basketArray = [];
 let dishSchnitzel = [
     {
         'name': 'Schweineschnitzel "Jager Art"',
-        'productInfo': '',
+        'productInfo': `Großes, frisch paniertes Schweine-Schnitzel, 
+                        goldgelb ausgebraten - mit unserer hausgemachten 
+                        Champignonrahmsauce aus frischen Champignons (ca. 300g)`,
         'price': 18.90,
         'quantity': 1
     },
 
     {
         'name': 'Schweineschnitzel "Wiener Art"',
-        'productInfo': '',
+        'productInfo': `Großes, frisch paniertes Schweine-Schnitzel, 
+                        goldgelb ausgebraten - mit Zitrone (ca. 300g)`,
         'price': 17.90,
         'quantity': 1
     },
 
     {
         'name': 'Schweineschnitzel "Pfeffer"',
-        'productInfo': '',
+        'productInfo': 'mit Pfefferrahmsauce',
         'price': 18.90,
         'quantity': 1
     },
-];
+]
 
-let dishBurger = [
+let dishBurger = [   
     {
         'name': 'XL Burger',
-        'productInfo': '',
+        'productInfo': `mit 200g deutschen Premium Rindfleisch, Cheddar, 
+                        Salat, Tomaten, Gurken, Zwiebeln, Haussauce, Barbecuesauce 
+                        und frischem Brioche Brötchen`,
         'price': 12.90,
         'quantity': 1
     },
 
     {
-        'name': 'Vegi-Burger',
-        'productInfo': '',
+        'name': 'Bacon-Burger',
+        'productInfo': `mit 200g deutschem Premium Rindfleisch, Cheddar, 
+                        Salat, Tomaten, Gurken, Zwiebeln, original Joppie Sauce, 
+                        Bacon und frischem Brioche Brötchen`,
         'price': 10.90,
         'quantity': 1
     },
 
     {
         'name': 'Chili Cheese Burger',
-        'productInfo': '',
+        'productInfo': `mit 200g deutschem Premium Rindfleisch, 
+                        Cheddar, Salat, Tomaten, Gurken, Zwiebeln, 
+                        Cheese Style Sauce, Jalapenos und frischem 
+                        Brioche Brötchen`,
         'price': 11.90,
         'quantity': 1
     }
@@ -48,39 +58,62 @@ let dishBurger = [
 
 let dishImg = [
     './img/schnipo-1837703_640.jpg',
-    ''
+    './img/hamburger-1238246_640.jpg'
 ]
 
 loadBaskes();
 
-function render() {
-    let post = document.getElementById('post_menu');
-    post.innerHTML = '';
-
-    for (let i = 0; i < dishSchnitzel.length; i++) {
-        let element = dishSchnitzel[i];
-        post.innerHTML += generatePostMenu(element, i);
-    }
-
+function render() {   
+    renderSchnitzel()
+    renderBurger()    
+    // let post = document.getElementById('post_menu_schnitzel');
+    // post.innerHTML = '';
+    // for (let i = 0; i < dishSchnitzel.length; i++) {
+    //     let element = dishSchnitzel[i];
+    //     post.innerHTML += generatePostMenu(dishSchnitzel, element, i);
+    // }
     // for (let i = 0; i < dishBurger.length; i++) {
     //     let element = dishBurger[i];
-    //     post.innerHTML += generatePostMenu(element, i);
+    //     post.innerHTML += generatePostMenu(dishBurger, element, i);
     // }
-
+    
+    
     renderBasket();
 }
 
+function renderSchnitzel() {
+    let post = document.getElementById('post_menu_schnitzel');
+    post.innerHTML = '';
+    for (let i = 0; i < dishSchnitzel.length; i++) {
+        let element = dishSchnitzel[i];
+        post.innerHTML += generatePostMenu(dishSchnitzel, element, i);
+    }
+}
 
-function generatePostMenu(element, i) {
+
+function renderBurger() {
+    let post = document.getElementById('post_menu_burger');
+    post.innerHTML = '';
+    for (let i = 0; i < dishBurger.length; i++) {
+        let element = dishBurger[i];
+        post.innerHTML += generatePostMenu(dishBurger, element, i);
+    }
+}
+
+
+
+
+
+function generatePostMenu(obj, element, i) {
     return `
         <div class="dish_name">
-            <div>${element['name']}</div>
-            <br>
-            <div>${element['price'].toFixed(2)}</div>
-            <button onclick="addDish(${i})">Add</button>
+            <div class="product_name">${element['name']}</div>
+            <div class="product_info">${element['productInfo']}</div>
+            <div class="product_price">${element['price'].toFixed(2)}</div>            
+            <button class="add_product" onclick="addDish('${encodeURIComponent(JSON.stringify(obj))}', ${i})">Add</button>
         </div>
         `;
-    }
+}
 
     
 function renderBasket() { 
@@ -99,7 +132,7 @@ function renderBasket() {
         let value = +document.getElementById(`sum${i}`).innerText;
         totalSum += value;
         totalPrice.innerHTML = /*html*/`
-            <div>${totalSum.toFixed(2)}</div>
+            <div>${totalSum.toFixed(2) + ' €'}</div>
             <button onclick="deleteAll()">Delete All</button>
             `;
     }
@@ -124,24 +157,43 @@ function generateBasket (sum, element, i) {
 } 
 
 
-function addDish(i) {
-    // if(basketArray[i] === null) {
-    //     basketArray.splice(i, 1)
-    // }   
+function addDish(obj, i) {
+    obj = JSON.parse(decodeURIComponent(obj));    
+    
     if (basketArray.length == 0) {
-        basketArray.push(dishSchnitzel[i]);
+        basketArray.push(obj[i]);
     } else {
-        if (basketArray.indexOf(dishSchnitzel[i]) == -1) {
-            basketArray.push(dishSchnitzel[i]);
-
+        if (basketArray.indexOf(obj[i]) == -1) {
+            basketArray.push(obj[i]);
         } else {            
-            dishSchnitzel[i]['quantity']++     
+            obj[i]['quantity']++     
         }
     }
     saveBasket();
     render();
     renderBasket();
 }
+
+
+// function addDish(i) {
+//     // if(basketArray[i] === null) {
+//     //     basketArray.splice(i, 1)
+//     // }  
+    
+//     if (basketArray.length == 0) {
+//         basketArray.push(dishSchnitzel[i]);
+//     } else {
+//         if (basketArray.indexOf(dishSchnitzel[i]) == -1) {
+//             basketArray.push(dishSchnitzel[i]);
+
+//         } else {            
+//             dishSchnitzel[i]['quantity']++     
+//         }
+//     }
+//     saveBasket();
+//     render();
+//     renderBasket();
+// }
 
 
 function plusDish(i) {
