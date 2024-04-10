@@ -83,22 +83,11 @@ let dishSalat = [
 loadBaskes();
 
 function render() {   
-    let id = document.getElementById('hidden_basket');
-    id.innerHTML = '';
-    id.innerHTML += `
-        <div class="shopping_cart_hidden">
-            <h1>Warenkorb</h1>
-            <img src="./img/shopping-cart-1901584_640.png" alt="">
-            <div id="quantity_hidden" ></div>
-        </div>
-    `; 
-
+    
     renderDish(dishSalat, 'post_menu_salat');
     renderDish(dishSchnitzel, 'post_menu_schnitzel');
     renderDish(dishBurger, 'post_menu_burger');
-
-
-      
+    renderHiddenBasket();      
     renderBasket();
 }
 
@@ -151,6 +140,30 @@ function renderBasket() {
 
 }
 
+function renderHiddenBasket() {    
+    let basket = document.getElementById('hidden_basket');
+    let id = document.getElementById('sup_hidden');
+    let totalPrice = document.getElementById('total_price_hidden');
+    
+    id.innerHTML = '';
+    basket.innerHTML = '';
+    totalPrice.innerHTML = 'Warenkorb ist leer';
+    
+    let sum = 0;
+    let totalSum = 0;
+    let totalQuantity = 0;
+    
+    for (let i = 0; i < basketArray.length; i++) {      
+        sum = basketArray[i]['price'] * basketArray[i]['quantity'];
+        basket.innerHTML += generateBasket(sum, basketArray[i], i); 
+
+        let value = +document.getElementById(`sum${i}`).innerText;
+        totalSum += value;
+        totalPrice.innerHTML = generateDeleteAll(totalSum);
+        totalQuantity += basketArray[i]['quantity'];
+    }
+    id.innerHTML += `${totalQuantity}`;
+}
 
 function generateDeleteAll(totalSum) {
     return `    
@@ -162,10 +175,6 @@ function generateDeleteAll(totalSum) {
             <button onclick="deleteAll()">Bezahlen ${totalSum.toFixed(2)} ${'€'}</button>    
         </div>
     `;
-}
-
-function supCalc() {
-    
 }
 
 
@@ -234,7 +243,7 @@ function deleteDish(i) {
 
 
 function deleteAll() {
-    localStorage.removeItem('basket')
+    localStorage.removeItem('basket');
     location.reload();
 }
 

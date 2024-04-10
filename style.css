@@ -131,6 +131,10 @@ body {
     box-shadow: inset -2px 0px 5px 1px rgba(0,0,0,0.18);    
 }
 
+.totale_price {
+    text-align: center;
+}
+
 .totale_price h2 {
     margin-block-start: 0;
     margin-block-end: 0;
@@ -259,7 +263,7 @@ body {
 
 .hidden_div {
     display: none;
-    text-align: center;
+    padding-bottom: 40px;
 }
 
 .shopping_cart_hidden h1 {
@@ -276,6 +280,15 @@ body {
 .shopping_cart_hidden img {
     height: 24px;
     margin-top: 10px;
+}
+
+.hidden_basket {
+    max-width: 760px;
+    width: 100%;
+}
+
+.total_price_hidden button {
+    padding: 10px 60px;
 }
 
 .footer {
