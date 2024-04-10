@@ -83,9 +83,21 @@ let dishSalat = [
 loadBaskes();
 
 function render() {   
+    let id = document.getElementById('hidden_basket');
+    id.innerHTML = '';
+    id.innerHTML += `
+        <div class="shopping_cart_hidden">
+            <h1>Warenkorb</h1>
+            <img src="./img/shopping-cart-1901584_640.png" alt="">
+            <div id="quantity_hidden" ></div>
+        </div>
+    `; 
+
     renderDish(dishSalat, 'post_menu_salat');
     renderDish(dishSchnitzel, 'post_menu_schnitzel');
     renderDish(dishBurger, 'post_menu_burger');
+
+
       
     renderBasket();
 }
@@ -111,15 +123,20 @@ function generatePostMenu(obj, element, i) {
         `;
 }
 
-    
+
 function renderBasket() { 
+
+    let id = document.getElementById('sup');
     let basket = document.getElementById('basket');
     let totalPrice = document.getElementById('total_price');
+    
+    id.innerHTML = '';
     basket.innerHTML = '';
     totalPrice.innerHTML = 'Warenkorb ist leer';
-
-    let sum  = 0;
+    
+    let sum = 0;
     let totalSum = 0;
+    let totalQuantity = 0;
     
     for (let i = 0; i < basketArray.length; i++) {      
         sum = basketArray[i]['price'] * basketArray[i]['quantity'];
@@ -128,7 +145,10 @@ function renderBasket() {
         let value = +document.getElementById(`sum${i}`).innerText;
         totalSum += value;
         totalPrice.innerHTML = generateDeleteAll(totalSum);
+        totalQuantity += basketArray[i]['quantity'];
     }
+    id.innerHTML += `${totalQuantity}`;
+
 }
 
 
@@ -142,6 +162,10 @@ function generateDeleteAll(totalSum) {
             <button onclick="deleteAll()">Bezahlen ${totalSum.toFixed(2)} ${'€'}</button>    
         </div>
     `;
+}
+
+function supCalc() {
+    
 }
 
 
@@ -170,13 +194,12 @@ function generateBasket (sum, element, i) {
 function addDish(obj, i) {
     obj = JSON.parse(decodeURIComponent(obj));
     basketArray.push(obj[i]);
-
+    
     const unique = basketArray.filter((obj, index) => {
         return index === basketArray.findIndex(o => obj.name === o.name);
     });
-
     basketArray = unique;
-    
+
     saveBasket();
     render();
     renderBasket();
