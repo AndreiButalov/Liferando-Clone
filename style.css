@@ -166,7 +166,7 @@ body {
     margin: 20px;   
 }
 .basket {
-    position: fixed; 
+    /* position: fixed;  */
     min-width: 360px;
     max-width: 400px;
 }
@@ -263,7 +263,6 @@ body {
 
 .hidden_div {
     display: none;
-    padding-bottom: 40px;
 }
 
 .shopping_cart_hidden h1 {
@@ -272,12 +271,22 @@ body {
 }
 
 .shopping_cart_hidden {
+    background-color:  rgb(243,104,5);
+    border-radius: 18px;
+    padding-top: 20px;
+    padding-bottom: 30px;
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
+}
+
+.shopping_cart_hidden:hover {
+    background-color:  rgb(241, 127, 45);
 }
  
 .shopping_cart_hidden img {
+    
     height: 24px;
     margin-top: 10px;
 }
@@ -289,6 +298,11 @@ body {
 
 .total_price_hidden button {
     padding: 10px 60px;
+    margin-bottom: 30px;
+}
+
+.hidden_hidden {
+    display: none;
 }
 
 .footer {

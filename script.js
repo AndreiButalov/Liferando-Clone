@@ -260,3 +260,14 @@ function loadBaskes() {
         basketArray = JSON.parse(basketAsText);
     }
 }
+
+
+function hiddenBasket() {
+    let element = document.getElementById('hidden_window');
+
+    if (element.style.display === "block") {
+        element.style.display = "none";
+    } else {
+        element.style.display = "block";
+    }
+}
