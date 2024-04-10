@@ -78,6 +78,31 @@ body {
     border: 1px solid white;
 }
 
+.link_to_dish {
+    display: flex;
+    margin-top: 30px;
+    justify-content: space-around;
+}
+
+.link_to_dish a {
+    text-decoration: none;
+    font-weight: bold;
+    color: rgb(48,61,63);
+}
+
+.review {
+    display: flex;
+    gap: 5px;
+}
+
+.review img {
+    height: 20px;
+}
+
+.review p {
+    text-decoration: underline;
+}
+
 .dish_name {
     border: 1px solid rgb(219,217,215);
     margin-bottom: 30px;
@@ -166,13 +191,13 @@ body {
     margin: 20px;   
 }
 .basket {
-    /* position: fixed;  */
+    position: fixed;
     min-width: 360px;
     max-width: 400px;
 }
 
 .shopping_cart {
-    padding-top: 10px;
+    padding-top: 5px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -312,6 +337,10 @@ body {
     background-color: black;
     max-width: 100%;
     z-index: 1;
+}
+
+.sup {
+    font-weight: bold;
 }
 @media (max-width: 850px) {
     .sidebar {

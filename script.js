@@ -121,7 +121,8 @@ function renderBasket() {
     
     id.innerHTML = '';
     basket.innerHTML = '';
-    totalPrice.innerHTML = 'Warenkorb ist leer';
+    totalPrice.innerHTML = `<br><b>Fülle deinen Warenkorb</b><br>
+    Füge einige leckere Gerichte aus der Speisekarte hinzu und bestelle dein Essen.`;
     
     let sum = 0;
     let totalSum = 0;
