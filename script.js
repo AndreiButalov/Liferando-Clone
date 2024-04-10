@@ -83,50 +83,19 @@ let dishSalat = [
 loadBaskes();
 
 function render() {   
-    renderSchnitzel();
-    renderBurger();    
-    renderSalat();    
-    // let post = document.getElementById('post_menu_schnitzel');
-    // post.innerHTML = '';
-    // for (let i = 0; i < dishSchnitzel.length; i++) {
-    //     let element = dishSchnitzel[i];
-    //     post.innerHTML += generatePostMenu(dishSchnitzel, element, i);
-    // }
-    // for (let i = 0; i < dishBurger.length; i++) {
-    //     let element = dishBurger[i];
-    //     post.innerHTML += generatePostMenu(dishBurger, element, i);
-    // }
-    
-    
+    renderDish(dishSalat, 'post_menu_salat');
+    renderDish(dishSchnitzel, 'post_menu_schnitzel');
+    renderDish(dishBurger, 'post_menu_burger');
+      
     renderBasket();
 }
 
-function renderSchnitzel() {
-    let post = document.getElementById('post_menu_schnitzel');
+function renderDish(arr, id) {
+    let post = document.getElementById(id);
     post.innerHTML = '';
-    for (let i = 0; i < dishSchnitzel.length; i++) {
-        let element = dishSchnitzel[i];
-        post.innerHTML += generatePostMenu(dishSchnitzel, element, i);
-    }
-}
-
-
-function renderBurger() {
-    let post = document.getElementById('post_menu_burger');
-    post.innerHTML = '';
-    for (let i = 0; i < dishBurger.length; i++) {
-        let element = dishBurger[i];
-        post.innerHTML += generatePostMenu(dishBurger, element, i);
-    }
-}
-
-
-function renderSalat() {
-    let post = document.getElementById('post_menu_salat');
-    post.innerHTML = '';
-    for (let i = 0; i < dishSalat.length; i++) {
-        let element = dishSalat[i];
-        post.innerHTML += generatePostMenu(dishSalat, element, i);
+    for (let i = 0; i < arr.length; i++) {
+        let element = arr[i];
+        post.innerHTML += generatePostMenu(arr, element, i);
     }
 }
 
@@ -144,18 +113,18 @@ function generatePostMenu(obj, element, i) {
 
     
 function renderBasket() { 
-    
     let basket = document.getElementById('basket');
     let totalPrice = document.getElementById('total_price');
     basket.innerHTML = '';
     totalPrice.innerHTML = 'Warenkorb ist leer';
+
     let sum  = 0;
     let totalSum = 0;
     
     for (let i = 0; i < basketArray.length; i++) {      
         sum = basketArray[i]['price'] * basketArray[i]['quantity'];
         basket.innerHTML += generateBasket(sum, basketArray[i], i); 
-        
+
         let value = +document.getElementById(`sum${i}`).innerText;
         totalSum += value;
         totalPrice.innerHTML = generateDeleteAll(totalSum);
@@ -199,42 +168,19 @@ function generateBasket (sum, element, i) {
 
 
 function addDish(obj, i) {
-    obj = JSON.parse(decodeURIComponent(obj));    
+    obj = JSON.parse(decodeURIComponent(obj));
+    basketArray.push(obj[i]);
+
+    const unique = basketArray.filter((obj, index) => {
+        return index === basketArray.findIndex(o => obj.name === o.name);
+    });
+
+    basketArray = unique;
     
-    if (basketArray.length == 0) {
-        basketArray.push(obj[i]);
-    } else {
-        if (basketArray.indexOf(obj[i]) == -1) {
-            basketArray.push(obj[i]);
-        } else {            
-            obj[i]['quantity']++     
-        }
-    }
     saveBasket();
     render();
     renderBasket();
 }
-
-
-// function addDish(i) {
-//     // if(basketArray[i] === null) {
-//     //     basketArray.splice(i, 1)
-//     // }  
-    
-//     if (basketArray.length == 0) {
-//         basketArray.push(dishSchnitzel[i]);
-//     } else {
-//         if (basketArray.indexOf(dishSchnitzel[i]) == -1) {
-//             basketArray.push(dishSchnitzel[i]);
-
-//         } else {            
-//             dishSchnitzel[i]['quantity']++     
-//         }
-//     }
-//     saveBasket();
-//     render();
-//     renderBasket();
-// }
 
 
 function plusDish(i) {
