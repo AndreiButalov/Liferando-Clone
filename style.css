@@ -1,6 +1,11 @@
 body {
     margin: 0;
     font-family: Segoe UI;
+    scrollbar-3d-light-color:#FFFFFF;
+}
+
+.main {
+    position: relative;
 }
 
 .headline {
@@ -29,13 +34,13 @@ body {
 
 .content {
     display: flex;
-    height: 100vh;
 }
 
 .restaurant_banner {
     width: 100%;
     display: flex;
-    flex-direction: column;    
+    flex-direction: column; 
+    padding-bottom: 102px;
 }
 
 .img_banner {
@@ -45,9 +50,9 @@ body {
 }
 
 .sidebar {
-    min-width: 360px;
+    position: relative;
+    min-width: 350px;
     max-width: 400px;
-    text-align: center;
 }
 
 .restaurant_info {
@@ -189,11 +194,14 @@ body {
 
 .basket_content {
     margin: 20px;   
+    padding-right: 20px;
+
 }
+
 .basket {
     position: fixed;
-    min-width: 360px;
-    max-width: 400px;
+    height: 79%;
+    overflow-y: scroll;
 }
 
 .shopping_cart {
@@ -331,13 +339,14 @@ body {
 }
 
 .footer {
+    position: absolute;
     width: 100%;
+    bottom: 0;
     padding-top: 100px;
-    padding-right: 360px;    
     background-color: black;
-    max-width: 100%;
-    z-index: 1;
 }
+
+
 
 .sup {
     font-weight: bold;
