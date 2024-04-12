@@ -86,8 +86,9 @@ function render() {
     renderDish(dishSalat, 'post_menu_salat');
     renderDish(dishSchnitzel, 'post_menu_schnitzel');
     renderDish(dishBurger, 'post_menu_burger');
-    renderBasket('sup', 'basket', 'total_price');
-    renderBasket('sup_hidden', 'hidden_basket', 'total_price_hidden');
+
+    renderBasket();
+    renderHiddenBasket();
 }
 
 
@@ -113,12 +114,12 @@ function generatePostMenu(obj, element, i) {
 }
 
 
-function renderBasket(basketId, basketBasket, basketPrice) { 
-
-    let id = document.getElementById(basketId);
-    let basket = document.getElementById(basketBasket);
-    let totalPrice = document.getElementById(basketPrice);
+function renderBasket() {
     
+    let id = document.getElementById('sup');
+    let basket = document.getElementById('basket');
+    let totalPrice = document.getElementById('total_price');
+       
     id.innerHTML = '';
     basket.innerHTML = '';
     totalPrice.innerHTML = `<br><b>Fülle deinen Warenkorb</b><br>Füge einige leckere Gerichte aus der Speisekarte hinzu und bestelle dein Essen.`;
@@ -140,31 +141,33 @@ function renderBasket(basketId, basketBasket, basketPrice) {
 
 }
 
-// function renderHiddenBasket() {  
-      
-//     let id = document.getElementById('sup_hidden');
-//     let basket = document.getElementById('hidden_basket');
-//     let totalPrice = document.getElementById('total_price_hidden');
-    
-//     id.innerHTML = '';
-//     basket.innerHTML = '';
-//     totalPrice.innerHTML = 'Warenkorb ist leer';
-    
-//     let sum = 0;
-//     let totalSum = 0;
-//     let totalQuantity = 0;
-    
-//     for (let i = 0; i < basketArray.length; i++) {      
-//         sum = basketArray[i]['price'] * basketArray[i]['quantity'];
-//         basket.innerHTML += generateBasket(sum, basketArray[i], i); 
 
-//         let value = +document.getElementById(`sum${i}`).innerText;
-//         totalSum += value;
-//         totalPrice.innerHTML = generateDeleteAll(totalSum);
-//         totalQuantity += basketArray[i]['quantity'];
-//     }
-//     id.innerHTML += `${totalQuantity}`;
-// }
+function renderHiddenBasket() {  
+      
+    let id = document.getElementById('sup_hidden');
+    let basket = document.getElementById('hidden_basket');
+    let totalPrice = document.getElementById('total_price_hidden');
+    
+    id.innerHTML = '';
+    basket.innerHTML = '';
+    totalPrice.innerHTML = `<br><b>Fülle deinen Warenkorb</b><br>Füge einige leckere Gerichte aus der Speisekarte hinzu und bestelle dein Essen.`;
+    
+    let sum = 0;
+    let totalSum = 0;
+    let totalQuantity = 0;
+    
+    for (let i = 0; i < basketArray.length; i++) {      
+        sum = basketArray[i]['price'] * basketArray[i]['quantity'];
+        basket.innerHTML += generateBasket(sum, basketArray[i], i); 
+
+        let value = +document.getElementById(`sum${i}`).innerText;
+        totalSum += value;
+        totalPrice.innerHTML = generateDeleteAll(totalSum);
+        totalQuantity += basketArray[i]['quantity'];
+    }
+    id.innerHTML += `${totalQuantity}`;
+}
+
 
 function generateDeleteAll(totalSum) {
     return `    
